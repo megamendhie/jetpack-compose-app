@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
         if(showOnboarding)
             ShowOnBoardingScreen { showOnboarding = false }
         else
-            RunThisShit(List(50){"$it"})
+            ShowMainScreen(List(50){"$it"})
     }
 
     @Composable
@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun RunThisShit(names:List<String> = listOf("Funny Mega", "Dude")){
+    fun ShowMainScreen(names:List<String> = listOf("Funny Mega", "Dude")){
         LazyColumn(modifier = Modifier.padding(4.dp)){
             items(items = names){ name ->
                 CardContent(name = name)
@@ -108,7 +108,7 @@ class MainActivity : ComponentActivity() {
                         fontWeight = FontWeight.ExtraBold
                     ))
                 if(expanded)
-                    Text(text = "This is a long explanation of how things shold be"
+                    Text(text = "This is a long explanation of how things should be"
                         .repeat(4))
             }
             IconButton(onClick = { expanded = !expanded }) {
@@ -136,7 +136,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun SeeHowfar(){
         ComposeAppTheme {
-            RunThisShit(List(50){"$it"})
+            ShowMainScreen(List(50){"$it"})
         }
     }
 
@@ -149,7 +149,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun SeeHowfarLight(){
         ComposeAppTheme {
-            RunThisShit(List(50){"$it"})
+            ShowMainScreen(List(50){"$it"})
         }
     }
 }
