@@ -13,14 +13,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons.Filled
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.test.composeapp.ui.theme.ComposeAppTheme
 
@@ -64,9 +65,18 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun ShowMainScreen(names:List<String> = listOf("Funny Mega", "Dude")){
-        LazyColumn(modifier = Modifier.padding(4.dp)){
-            items(items = names){ name ->
-                CardContent(name = name)
+        Scaffold(
+            topBar = {
+                TopAppBar {
+                    Text("Cool Compose App")
+                }
+            }
+        ) {
+
+            LazyColumn(modifier = Modifier.padding(4.dp)){
+                items(items = names){ name ->
+                    CardContent(name = name)
+                }
             }
         }
     }
@@ -103,7 +113,7 @@ class MainActivity : ComponentActivity() {
                 .weight(1f)
                 .padding(bottom = extraPadding.coerceAtLeast(0.dp))){
                 Text(text = "Hello  $name")
-                Text(text = "I know you",
+                Text(text = "I like you",
                     style = MaterialTheme.typography.h5.copy(
                         fontWeight = FontWeight.ExtraBold
                     ))
@@ -114,9 +124,9 @@ class MainActivity : ComponentActivity() {
             IconButton(onClick = { expanded = !expanded }) {
                 Icon(
                     imageVector = if(expanded)
-                        Filled.ThumbUp
+                        Filled.ExpandLess
                     else
-                        Filled.ArrowDropDown,
+                        Filled.ExpandMore,
                     contentDescription = if(expanded)
                         stringResource(R.string.show_less)
                     else

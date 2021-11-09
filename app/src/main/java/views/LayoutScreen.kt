@@ -1,15 +1,13 @@
 package views
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.graphics.Paint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -55,7 +53,9 @@ class LayoutScreen {
                     .padding(2.dp)
                     .align(Alignment.CenterVertically),
                 onClick = { /*TODO*/ }) {
-                Text("Alex")
+                Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Like Button")
+                Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+                Text(style = MaterialTheme.typography.h5, text = "Like")
             }
         }
     }
