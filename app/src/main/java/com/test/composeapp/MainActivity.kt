@@ -8,13 +8,14 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons.Filled
-import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
@@ -23,7 +24,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import com.test.composeapp.ui.theme.ComposeAppTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,19 +68,48 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun ShowMainScreen(names:List<String> = listOf("Funny Mega", "Dude")){
+        val scrollState = rememberLazyListState()
+        val coroutineScope = rememberCoroutineScope()
+
         Scaffold(
             topBar = {
                 TopAppBar {
-                    Text("Cool Compose App")
+                    Text("Cool Compose App", fontWeight = FontWeight.Bold)
                 }
             }
         ) {
-
-            LazyColumn(modifier = Modifier.padding(4.dp)){
-                items(items = names){ name ->
-                    CardContent(name = name)
+            Column {
+                Row(modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)) {
+                    Button(modifier = Modifier.weight(1F),
+                        onClick = {
+                            coroutineScope.launch {
+                                scrollState.animateScrollToItem(0)
+                            }
+                        }) {
+                        Icon(imageVector = Filled.ArrowUpward, contentDescription = null)
+                        Text(text = "Top")
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(modifier = Modifier.weight(1F),
+                        onClick = {
+                            coroutineScope.launch {
+                                scrollState.animateScrollToItem(names.size-1)
+                            }
+                        }) {
+                        Icon(imageVector = Filled.ArrowDownward, contentDescription = null)
+                        Text(text = "Bottom")
+                    }
+                }
+                LazyColumn(
+                    modifier = Modifier.padding(4.dp),
+                    state = scrollState
+                ) {
+                    items(items = names){ name ->
+                        CardContent(name = name)
+                    }
                 }
             }
+
         }
     }
 
@@ -109,6 +141,14 @@ class MainActivity : ComponentActivity() {
                 )
             )
         ) {
+            Image(
+                painter = rememberImagePainter(data = "https://picsum.photos/200"),
+                contentDescription = "random image",
+                modifier = Modifier
+                    .size(56.dp)
+                    .padding(top = 5.dp)
+            )
+            Spacer(modifier = Modifier.width(5.dp))
             Column (modifier = Modifier
                 .weight(1f)
                 .padding(bottom = extraPadding.coerceAtLeast(0.dp))){
@@ -146,7 +186,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun SeeHowfar(){
         ComposeAppTheme {
-            ShowMainScreen(List(50){"$it"})
+            ShowMainScreen(List(20){"$it"})
         }
     }
 
